@@ -1,0 +1,31 @@
+name: CI/CD Deploying Updated Message in Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          debug: true
+          script: |
+            cd /var/www/helloapp/Fully-automated-CI-CD-pipeline-Python-Web-App-Deployment
+            git fetch --all
+            git reset --hard origin/main
+            source /home/ec2-user/myvenv1/bin/activate
+            pip install -r requirements.txt
+            deactivate
+            sudo systemctl restart helloapp
+            sudo systemctl status helloapp --no-pager
