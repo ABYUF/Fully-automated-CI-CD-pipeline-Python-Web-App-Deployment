@@ -4,13 +4,15 @@ def test_index():
     tester = app.test_client()
     response = tester.get('/')
     assert response.status_code == 200
+
     # Headline
-    assert b"CI/CD Deployment Successful!" in response.data
+    assert b"CI/CD Cloud DevOps Project is Deployment Successful!" in response.data
 
     # Body
-    assert b"Your <b>Python Flask Application</b> is up and running on <b>AWS EC2</b>." in response.data
-    assert b'Deployed using <b>GitHub Actions</b> with <b>Automated Build, Linting, Testing, and Deployment</b>.' in response.data
-    assert b"Technology Stack: Flask | Gunicorn | Nginx | GitHub Actions" in response.data
+    assert b"This Flask application demonstrates a <b>Fully Automated CI/CD Pipeline</b>." in response.data
+    assert b"<b>Code pushed to GitHub \xe2\x86\x92 Linted \xe2\x86\x92 Unit Tested \xe2\x86\x92 Built \xe2\x86\x92 Deployed to EC2</b>" in response.data
+    assert b"Integrated with Gunicorn & Nginx for production" in response.data
+    assert b"Managed using GitHub Actions workflow" in response.data
 
     # Footer
-    assert b'style="font-size:12px; color:gray;"> Pipeline verified and is working end-to-end.' in response.data
+    assert b"(Project by Abrar Basha \xe2\x80\x94 Cloud & DevOps Engineer)" in response.data
